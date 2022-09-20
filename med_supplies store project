@@ -1,0 +1,34 @@
+--Design a store project
+
+CREATE TABLE med_supplies (id INTEGER, name TEXT, quantity INTEGER, price NUMERIC, category TEXT);
+
+INSERT INTO med_supplies VALUES
+(1, "gauze 2x2", 5, 2.00, "wound"),
+(2, "bacitracin", 4, 3.00, "wound"),
+(3, "med cups", 10, 1.00, "med admin"),
+(4, "boost plus", 6, 20.00, "supplement"),
+(5, "notepad", 8, 0.50, "office"),
+(6, "60 cc syringe", 4, 15.00,"med admin"),
+(7, "pens", 8, 1.50, "office"),
+(8, "hand sanitizer", 10, 2.00, "antiseptic"),
+(9, "wound cleanser", 4, 1.50, "wound"),
+(10, "tongue depressors", 5, 3.50, "med admin"),
+(11, "BP cuff", 4, 5.00, "vitals"),
+(12, "stethoscope", 2, 6.00, "vitals"),
+(13, "24g needle", 24, 1.00, "med admin"),
+(14, "cloth tape", 8, 0.50, "wound"),
+(15, "3 ring binder", 4, 1.75, "office");
+
+--show items only in wound category and ordered by price
+
+SELECT * FROM med_supplies WHERE category = "wound" ORDER BY price;
+
+-- display total quantity of items in database
+
+SELECT SUM(quantity) FROM med_supplies;
+
+--display average price of supplies in office category
+
+SELECT AVG(price) "avg price office"
+FROM med_supplies
+WHERE category = "office";
