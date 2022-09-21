@@ -1,0 +1,54 @@
+--Create a JOINS project about celebrity crushes--
+
+CREATE TABLE fav_actors (id INTEGER PRIMARY KEY, name TEXT, from_country TEXT, age INTEGER);
+
+INSERT INTO fav_actors VALUES
+(1, "Ian Somerhalder", "USA", 43),
+(2, "James Lafferty", "USA", 37),
+(3, "Orlando Bloom", "UK", 45),
+(4, "Henry Cavill", "UK", 39);
+
+CREATE TABLE fav_actor_spouse (id INTEGER PRIMARY KEY, name TEXT, from_country TEXT, age INTEGER, spouse_id INTEGER);
+
+INSERT INTO fav_actor_spouse VALUES
+(1, "Nikki Reed", "USA", 34, 1),
+(2, "Katy Perry", "USA", 37, 3),
+(3, "Alexandra Park", "AUS", 33, 2);
+
+CREATE TABLE shows_movies (id INTEGER PRIMARY KEY, title TEXT, movie_or_show TEXT, actor TEXT, character_played TEXT, year_released INTEGER);
+
+INSERT INTO shows_movies VALUES
+(1, "Vampire Diaries", "show", "Ian Somerhalder", "Damon Salvatore", 2009),
+(2, "Lost", "show", "Ian Somerhalder", "Boone Carlyle", 2004),
+(3, "Witcher", "show", "Henry Cavill", "Geralt of Rivia", 2019),
+(4, "Man of Steel", "movie", "Henry Cavill", "Superman", 2013),
+(5, "Pirates of the Carribean: series", "movie", "Orlando Bloom", "Will Turner", 2003),
+(6, "Lord of the Rings: series", "movie", "Orlando Bloom", "Legolas", 2001 ),
+(7, "One Tree Hill", "show", "James Lafferty", "Nathan Scott", 2003);
+
+--show age difference in actors and their spouses--
+
+SELECT (actors.age-spouse.age) AS age_disparity_years, actors.name, actors.age, spouse.name, spouse.age 
+FROM fav_actors actors
+    JOIN fav_actor_spouse spouse
+    ON actors.id = spouse.spouse_id
+    GROUP BY actors.name
+    ORDER BY age_disparity_years DESC;
+    
+--show actors that married someone born in a different country--
+
+
+SELECT actors.name, actors.from_country, spouse.name, spouse.from_country 
+FROM fav_actors actors
+    JOIN fav_actor_spouse spouse
+    ON actors.id = spouse.spouse_id
+    WHERE actors.from_country != spouse.from_country
+    GROUP BY actors.name;
+    
+--show actor's age when movies/shows were released--
+
+SELECT actors.name, ms.title, ms.year_released, 
+(actors.age-(2022-ms.year_released)) AS age_when_released
+FROM fav_actors actors
+    JOIN shows_movies ms 
+    ON actors.name = ms.actor;
