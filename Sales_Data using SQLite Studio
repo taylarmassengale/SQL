@@ -45,3 +45,21 @@ FROM BIT_DB.FebSales Feb
 LEFT JOIN BIT_DB.customers cust 
     ON Feb.orderid = cust.order_id
 WHERE Feb.Quantity >= 2;
+
+--Select order dates between 2/13/19 and 2/18/19--
+SELECT orderdate FROM BIT_DB.FebSales 
+WHERE orderdate BETWEEN '02/13/19 00:00' AND '02/18/19 00:00';
+
+
+--Select products including 'batteries' in product description--
+SELECT distinct product
+FROM BIT_DB.FebSales
+WHERE product LIKE '%Batteries%';
+
+
+--List all the products sold in Los Angeles in February, 
+--and include how many of each were sold--
+SELECT product, SUM(quantity)
+FROM BIT_DB.FebSales
+WHERE location LIKE '%Los Angeles%'
+GROUP BY product;
