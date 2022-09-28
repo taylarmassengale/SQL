@@ -1,0 +1,42 @@
+--Downloaded Spotify data from Kaggle about the Top 50 songs in 2021 and performed analytics using SQL--
+
+--Which artists appeared more than once on the Top 50 songs list?--
+SELECT COUNT(artist_name) AS songs, artist_name
+    FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+    HAVING songs >1
+ORDER BY songs desc;
+
+--Which 3 songs ranked the highest in danceability?--
+SELECT track_name, danceability
+    FROM BIT_DB.Spotifydata
+    ORDER BY danceability desc LIMIT 3;
+    
+--Olivia Rodrigo and Doja Cat appeared the most often on the list at 4 times each--
+--What is the average tempo, danceability, popularity, loudness, and energy of Olivia Rodrigo's, and Doja Cat's songs?--
+SELECT artist_name,
+AVG(tempo),
+AVG(danceability),
+AVG(popularity),
+AVG(loudness),
+AVG(energy)
+    FROM BIT_DB.Spotifydata
+        WHERE artist_name = 'Doja Cat' OR artist_name ='Olivia Rodrigo'
+GROUP BY artist_name;
+
+--Which 5 songs were the most popular in 2021?--
+SELECT track_name, artist_name, popularity
+    FROM BIT_DB.Spotifydata
+        ORDER BY popularity DESC LIMIT 5;
+        
+--What is the average danceability of the 10 most popular songs?--
+SELECT AVG(danceability)
+    FROM BIT_DB.Spotifydata
+    WHERE popularity IN (SELECT popularity
+                FROM BIT_DB.Spotifydata
+                    ORDER BY popularity DESC LIMIT 10);
+                    
+--What is the average duration in seconds of Doja Cat's songs?--
+SELECT AVG(duration_ms)/1000
+    FROM BIT_DB.Spotifydata
+        WHERE artist_name = 'Doja Cat';
